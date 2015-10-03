@@ -11,12 +11,14 @@ public class GameController : MonoBehaviour {
 	public float waveWait;
 
 	public GUIText scoreText;
-	public GUIText restartText;
+    public GUIText lifeText;
+    public GUIText restartText;
 	public GUIText gameOverText;
 
 	private bool gameOver;
 	private bool restart;
-	private int score;
+    private int score;
+    private int life;
 
 	void Start ()
 	{
@@ -25,7 +27,9 @@ public class GameController : MonoBehaviour {
 		restartText.text = "";
 		gameOverText.text = "";
 		score = 0;
+        life = 5;
 		UpdateScore ();
+        UpdateLife();
 		StartCoroutine (SpawnWaves ());
 	}
 
@@ -69,7 +73,23 @@ public class GameController : MonoBehaviour {
 		scoreText.text = "Score: " + score;
 	}
 
-	public void GameOver()
+    public int GetLife()
+    {
+        return life;
+    }
+
+    public void RemoveLife()
+    {
+        life -= 1;
+        UpdateLife();
+    }
+
+    void UpdateLife()
+    {
+        lifeText.text = "Life: " + life;
+    }
+
+    public void GameOver()
 	{
 		gameOverText.text = "Game Over!";
 		gameOver = true;

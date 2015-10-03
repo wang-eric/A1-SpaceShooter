@@ -6,9 +6,9 @@ public class DestroyByContact : MonoBehaviour {
 	public GameObject playerExplosion;
 	public int scoreValue;
 	private GameController gameController;
+    private Vector3 explosion_position;
 
-
-	void Start (){
+    void Start (){
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		if (gameControllerObject != null) {
 			gameController = gameControllerObject.GetComponent <GameController>();
@@ -22,11 +22,16 @@ public class DestroyByContact : MonoBehaviour {
 		if (other.tag == "Boundary") {
 			return;
 		}
-		Instantiate (explosion, transform.position, transform.rotation);
+        explosion_position = new Vector3(transform.position.x, transform.position.y, transform.position.z-3);
+		Instantiate (explosion, explosion_position, transform.rotation);
 		if (other.tag == "Player") {
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
-			gameController.GameOver();
-		}
+            if (gameController.GetLife() == 0) {
+                gameController.GameOver();
+            }
+            gameController.RemoveLife();
+
+        }
 		if (other.tag != "Player"){
 			gameController.AddScore (scoreValue);
 		}
