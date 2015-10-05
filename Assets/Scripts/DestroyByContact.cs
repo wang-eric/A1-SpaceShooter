@@ -19,22 +19,23 @@ public class DestroyByContact : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
+		Debug.Log ("Hit");
 		if (other.tag == "Boundary") {
 			return;
 		}
-        explosion_position = new Vector3(transform.position.x, transform.position.y, transform.position.z-3);
+        explosion_position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 		Instantiate (explosion, explosion_position, transform.rotation);
 		if (other.tag == "Player") {
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
-            if (gameController.GetLife() <= 0) {
+			gameController.RemoveLife();
+            if (gameController.GetLife() == 0) {
                 Destroy(other.gameObject);
                 gameController.GameOver();
             }
             else
             {
-                
-                other.transform.position = new Vector3(0, 0, 0);
-                gameController.RemoveLife();
+				//StartCoroutine(Invicible(other));
+				other.transform.position = new Vector3(0, 0, 0);
             }
 
         }
@@ -45,4 +46,20 @@ public class DestroyByContact : MonoBehaviour {
         Destroy(gameObject);
 
     }
+	/* For the invincible time after getting hit
+	IEnumerator Invicible(Collider other)
+	{
+		Debug.Log ("Activate function");
+		yield return new WaitForSeconds(3);
+		Debug.Log ("Wait for seconds");
+		other.GetComponent<Collider>().enabled = false;
+		Debug.Log ("Collider Off!");
+		other.transform.position = new Vector3(0, 0, 0);
+		Debug.Log ("Reset position!");
+		yield return new WaitForSeconds(3);
+		Debug.Log ("Wait for seconds");
+		other.GetComponent<Collider>().enabled = true;
+		Debug.Log ("Collider On!!");
+	}
+	//*/
 }

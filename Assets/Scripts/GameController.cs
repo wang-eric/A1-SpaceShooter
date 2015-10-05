@@ -4,6 +4,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject hazard;
+	public GameObject crate;
     public GameObject player;
     public Vector3 spawnValues;
 	public int hazardCount;
@@ -49,10 +50,13 @@ public class GameController : MonoBehaviour {
 		while (true) {
 			for (int i = 0; i<hazardCount; i++) {
 				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-				Quaternion spawnRotation = Quaternion.identity;
+				Quaternion spawnRotation = Quaternion.Euler(0,-180,0);
 				Instantiate (hazard, spawnPosition, spawnRotation);
 				yield return new WaitForSeconds (spawnWait);
 			}
+			Vector3 crate_spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+			Quaternion crate_spawnRotation = Quaternion.Euler(0,0,0);
+			Instantiate (crate, crate_spawnPosition, crate_spawnRotation);
 			yield return new WaitForSeconds (waveWait);
 
 			if (gameOver){
