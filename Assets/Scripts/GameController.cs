@@ -76,6 +76,8 @@ public class GameController : MonoBehaviour {
 	void UpdateScore()
 	{
 		scoreText.text = "Score: " + score;
+		PlayerPrefs.SetInt("currentGameScore",score);
+		PlayerPrefs.Save();
 	}
 
     public int GetLife()
@@ -96,7 +98,7 @@ public class GameController : MonoBehaviour {
 
     public void GameOver()
 	{
-		gameOverText.text = "Game Over!";
+		Application.LoadLevel ("GameOver");
 		gameOver = true;
 	}
 }
